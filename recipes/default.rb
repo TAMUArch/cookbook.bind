@@ -59,7 +59,7 @@ if !node["databag"]["domains"].empty?
       owner "root"
       variables({:zone => zn, :records => entries})
       group "root"
-      notifies :reload, "service[#{node["bind"]["service"]}]"
+      notifies :restart, "service[#{node["bind"]["service"]}]"
     end
   end
 ## TODO: Support other methods of populating databases
