@@ -14,13 +14,13 @@ end
 # Only supporting data bags at this time
 # TODO: Support multiple domains
 if !node["databag"]["domains"].empty?
-  node.set[:bind][:serial]=data_bag_item("domains", node["databag"]["domains"])["seed"]
+  node.set[:bind][:serial] = data_bag_item("domains", node["databag"]["domains"])["seed"]
   zones = Array.new
   zones.push(data_bag_item("domains", node["databag"]["domains"])["id"])
   zones.push(data_bag_item("domains", node["databag"]["domains"])["network"].split(".")[0..-2].reverse.join(".")+".IN-ADDR.ARPA")
   node.set[:bind][:zones]=zones
 
-  node.set[:bind][:nameservers]=data_bag_item("domains", node["databag"]["domains"])["nameservers"]
+  node.set[:bind][:nameservers] = data_bag_item("domains", node["databag"]["domains"])["nameservers"]
   template "#{node["bind"]["dir"]}/named.conf.local" do
     source "named.conf.erb"
     mode "0644"
