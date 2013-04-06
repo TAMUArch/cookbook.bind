@@ -2,8 +2,8 @@
 default[:bind][:zones]
 
 # Base stuffs for any zone
-default[:bind][:soa] = node["fqdn"] 
-default[:bind][:soa_email] = "root.#{node["fqdn"]}"
+default[:bind][:soa] = node[:fqdn] 
+default[:bind][:soa_email] = "root.#{node[:fqdn]}"
 default[:bind][:ttl] = "604800"
 default[:bind][:serial] = 1  # auto-updated
 default[:bind][:refresh] = "604800"
