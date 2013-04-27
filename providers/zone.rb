@@ -8,11 +8,6 @@ action :delete do
 end
 
 action :create do
-  refresh_time = new_resource.refresh_time || node[:bind][:refresh]
-  retry_time = new_resource.retry_time || node[:bind][:retry]
-  expire_time = new_resource.expire_time || node[:bind][:expire]
-  cache_minimum = new_resource.cache_minimum || node[:bind][:minimum]
-  
   template "#{node[:bind][:dir]}/db.#{new_resource.zone_name}" do
     source "zone.db.erb"
     mode "0644"
@@ -20,11 +15,11 @@ action :create do
     group "root"
     variables({:zone => new_resource.zone_name, 
                :records => new_resource.records,
-               :serial => rand(10 ** 10),
-               :retry_time => retry_time,
-               :refresh_time => refresh_time,
-               :expire_time => expire_time,
-               :cache_minimum => cache_minimum})
+               :serial => new_resource.serial || rand(10 ** 10), 
+               :retry_time => new_resource.retry_time || node[:node][:retry],
+               :refresh_time => new_resource.refresh_time || node[:bind][:refresh],
+               :expire_time => new_resource.expire_time || node[:bind][:expire],
+               :cache_minimum => new_resource.cache_minimum || node[:bind][:minimum]})
     notifies :restart, "service[#{node[:bind][:service]}]"
   end 
 end 
