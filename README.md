@@ -1,14 +1,14 @@
 Bind Cookbook
 =============
 This cookbook is to install and configure the bind9 service. It is currently a
-work in progress and is subject to major changes.
+work in progress and is subject to major changes. The idea behind
+this cookbook is to use with the TAMUArch dhcp cookbook and data bags so 
+you only have to edit records once for both dhcp and dns.
 
 Requirements
 ------------
 Most testing of this cookbook is done with Ubuntu 12.04 but this cookbook 
-should work with later and earlier versions of Ubuntu.  The idea behind
-this cookbook is to use with the TAMUArch dhcp cookbook and data bags so 
-you only have to edit records once for both dhcp and dns.
+should work with later and earlier versions of Ubuntu.  
 
 #### packages
 - `bind9` - bind9 is the currently used bind version.
