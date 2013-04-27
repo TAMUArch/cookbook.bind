@@ -1,23 +1,20 @@
-bind Cookbook
+Bind Cookbook
 =============
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwhich.
+This cookbook is to install and configure the bind9 service. It is currently a
+work in progress and is subject to major changes.
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+Most testing of this cookbook is done with Ubuntu 12.04 but this cookbook 
+should work with later and earlier versions of Ubuntu.  The idea behind
+this cookbook is to use with the TAMUArch dhcp cookbook and data bags so 
+you only have to edit records once for both dhcp and dns.
 
-e.g.
 #### packages
-- `toaster` - bind needs toaster to brown your bagel.
+- `bind9` - bind9 is the currently used bind version.
 
 Attributes
 ----------
-TODO: List you cookbook attributes here.
-
-e.g.
 #### bind::default
 <table>
   <tr>
@@ -27,12 +24,60 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['bind']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
+    <td><tt>['bind']['soa']</tt></td>
+    <td>String</td>
+    <td>Start of Authority Record</td>
+    <td><tt>node[:fqdn]</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['bind']['soa_email']</tt></td>
+    <td>String</td>
+    <td>Start of Authority Record Email</td>
+    <td><tt>root.#{node[:fqdn]}</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['bind']['ttl']</tt></td>
+    <td>String</td>
+    <td>default zone duration of record cache</td>
+    <td><tt>604800</tt></td>
+  </tr> 
+  <tr>
+    <td><tt>['bind']['refresh']</tt></td>
+    <td>String</td>
+    <td>default zone refresh interval</td>
+    <td><tt>604800</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['bind']['retry']</tt></td>
+    <td>String</td>
+    <td>default zone retry interval</td>
+    <td><tt>86400</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['bind']['expire']</tt></td>
+    <td>String</td>
+    <td>default zone expire intervals</td>
+    <td><tt>2419200</tt></td>
   </tr>
 </table>
+
+Resources/Providers
+-------------------
+# bind_zone
+#### Actions
+- :create: creates the zone
+- :delete: deletes the zone
+
+#### Attribute Parameters
+- zone_name: name attribute. the name of the zone
+- nameservers: array of nameservers to use in the zone
+- records: a hash of records for the zone
+- refresh_time: zone refresh interval
+- retry_time: zone retry iterval
+- expire_time: zone expire interval
+- cache_minimum: zone cache interval
+- serial: custom serial to be used for the zone 
+
 
 Usage
 -----
@@ -53,9 +98,6 @@ Just include `bind` in your node's `run_list`:
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write you change
@@ -65,4 +107,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: Jim Rosser 
