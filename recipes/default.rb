@@ -51,15 +51,9 @@ if !node[:databag][:domains].empty?
         entries.push({"host" => host[1]["ip"].split(".")[3], "ttl" => "IN", "dns_class" => "PTR", "record" => "#{host[0]}.#{zones[0]}."})
       end  
     end
-    
-    # TODO: Only reset the serial if the file changes
-    template "#{node[:bind][:dir]}/db.#{zn}" do
-      source "zone.db.erb"
-      mode "0644"
-      owner "root"
-      variables({:zone => zn, :records => entries})
-      group "root"
-      notifies :restart, "service[#{node[:bind][:service]}]"
+
+    bind_zone zn do
+      nameservers entries
     end
   end
 ## TODO: Support other methods of populating databases
