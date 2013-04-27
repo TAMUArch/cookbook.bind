@@ -21,6 +21,7 @@ action :create do
     variables({:zone => new_resource.zone_name, 
                :records => new_resource.records,
                :serial => rand(10 ** 10),
+               :retry_time => retry_time,
                :refresh_time => refresh_time,
                :expire_time => expire_time,
                :cache_minimum => cache_minimum})
