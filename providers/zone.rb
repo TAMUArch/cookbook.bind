@@ -7,7 +7,22 @@ action :delete do
   end
 end
 
-action :create do
+action :create do  
+
+  require 'digest'
+
+  new_hash = Digest.hexencode(Digest::SHA256.digest new_resource.records.to_s)
+
+  if !node[:bind][:records_hash].nil? 
+    if new_hash != node[:bind][:records_hash][new_resource.zone_name]
+      serial = rand (10 ** 10)
+      node.set[:bind][:records_hash][new_resource.zone_name] = new_hash
+    end
+  else 
+    node.set[:bind][:records_hash][new_resource.zone_name] = new_hash 
+    serial = rand (10 ** 10)
+  end
+
   template "#{node[:bind][:dir]}/db.#{new_resource.zone_name}" do
     source "zone.db.erb"
     mode "0644"
@@ -15,7 +30,7 @@ action :create do
     group "root"
     variables({:zone => new_resource.zone_name, 
                :records => new_resource.records,
-               :serial => new_resource.serial, 
+               :serial => new_resource.serial || serial, 
                :retry_time => new_resource.retry_time || node[:bind][:retry],
                :refresh_time => new_resource.refresh_time || node[:bind][:refresh],
                :expire_time => new_resource.expire_time || node[:bind][:expire],

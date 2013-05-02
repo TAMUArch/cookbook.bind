@@ -58,7 +58,6 @@ if !domains.empty?
 
       bind_zone zn do
         records entries
-        serial "000001"
       end
     end
   end
