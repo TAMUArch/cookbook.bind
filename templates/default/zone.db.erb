@@ -4,18 +4,18 @@
 ;
 
 $ORIGIN <%= @zone %>.
-$TTL    <%= node["bind"]["ttl"] %>
-@       IN      SOA       <%= node["bind"]["soa"] %>. <%= node["bind"]["soa_email"] %>. (
-                <%= node["bind"]["serial"] %>      ; Serial
-                <%= node["bind"]["refresh"] %>     ; Refresh
-                <%= node["bind"]["retry"] %>       ; Retry 
-                <%= node["bind"]["expire"] %>      ; Expire 
-                <%= node["bind"]["minimum"] %>  )  ; Negative Cache TTL
+$TTL    <%= node[:bind][:ttl] %>
+@       IN      SOA       <%= node[:bind][:soa] %>. <%= node[:bind][:soa_email] %>. (
+                <%= @serial %>            ; Serial
+                <%= @refresh_time %>      ; Refresh
+                <%= @retry_time %>        ; Retry 
+                <%= @expire_time %>       ; Expire 
+                <%= @cache_minimum %>  )  ; Negative Cache TTL
 ;     
-<% node["bind"]["nameservers"].each do |nameserver| -%>
+<% @nameservers.each do |nameserver| -%>
 @       IN      NS        <%= nameserver %>.
 <% end -%>
 ;
-<% @records.each do |record| -%> 
-<%= record["host"] %>       <%= record["ttl"] %>      <%=record["dns_class"] %>       <%= record["record"] %>
+<% @records.each do |record, record_info| -%> 
+<%= record %>       <%= record_info["ttl"] %>      <%=record_info["dns_class"] %>       <%= record_info["record"] %>
 <% end -%>
