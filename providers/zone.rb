@@ -9,6 +9,7 @@ end
 
 action :create do  
 
+  # A sha256 hash is used to determine whether any records have changed
   require 'digest'
 
   new_hash = Digest.hexencode(Digest::SHA256.digest new_resource.records.to_s)
