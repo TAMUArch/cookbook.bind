@@ -1,3 +1,5 @@
+default[:bind][:data_bag] = "domains"
+
 # Bind Zone Variables
 default[:bind][:zones]
 

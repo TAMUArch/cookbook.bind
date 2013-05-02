@@ -15,10 +15,11 @@ action :create do
     group "root"
     variables({:zone => new_resource.zone_name, 
                :records => new_resource.records,
-               :serial => new_resource.serial || rand(10 ** 10), 
-               :retry_time => new_resource.retry_time || node[:node][:retry],
+               :serial => new_resource.serial, 
+               :retry_time => new_resource.retry_time || node[:bind][:retry],
                :refresh_time => new_resource.refresh_time || node[:bind][:refresh],
                :expire_time => new_resource.expire_time || node[:bind][:expire],
+               :nameservers => new_resource.nameservers || node[:bind][:nameservers],
                :cache_minimum => new_resource.cache_minimum || node[:bind][:minimum]})
     notifies :restart, "service[#{node[:bind][:service]}]"
   end 

@@ -16,6 +16,6 @@ $TTL    <%= node[:bind][:ttl] %>
 @       IN      NS        <%= nameserver %>.
 <% end -%>
 ;
-<% @records.each do |record| -%> 
-<%= record["host"] %>       <%= record["ttl"] %>      <%=record["dns_class"] %>       <%= record["record"] %>
+<% @records.each do |record, record_info| -%> 
+<%= record %>       <%= record_info["ttl"] %>      <%=record_info["dns_class"] %>       <%= record_info["record"] %>
 <% end -%>
