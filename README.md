@@ -5,6 +5,8 @@ work in progress and is subject to major changes. The idea behind
 this cookbook is to use with the TAMUArch dhcp cookbook and data bags so 
 you only have to edit records once for both dhcp and dns.
 
+Warning This cookbook is currently under heavy development.
+
 Requirements
 ------------
 Most testing of this cookbook is done with Ubuntu 12.04 but this cookbook 
