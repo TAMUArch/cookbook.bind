@@ -24,7 +24,7 @@ action :create do
     serial = rand (10 ** 10)
   end
 
-  template "#{node[:bind][:dir]}/db.#{new_resource.zone_name}" do
+  template "#{node[:bind][:db_dir]}/db.#{new_resource.zone_name}" do
     source "zone.db.erb"
     mode "0644"
     owner "root"

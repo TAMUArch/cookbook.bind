@@ -22,6 +22,15 @@ default[:bind][:options]
 default[:bind][:forward_ips]
 
 ## Bind Packages
-default[:bind][:package_name] = "bind9"
-default[:bind][:dir] = "/etc/bind"
-default[:bind][:service] = "bind9"
+case node.platform
+when "debian", "ubuntu"
+  default[:bind][:package_name] = "bind9"
+  default[:bind][:dir] = "/etc/bind"
+  default[:bind][:service] = "bind9"
+  default[:bind][:db_dir] = "/etc/bind"
+when "redhat","centos","scientific"
+  default[:bind][:package_name] = "bind"
+  default[:bind][:dir] = "/etc"
+  default[:bind][:service] = "named"
+  default[:bind][:db_dir] = "/etc/named"
+end
