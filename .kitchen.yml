@@ -31,7 +31,7 @@ platforms:
   - recipe[yum::epel]
 
 suites:
-- name: default
+- name: data-bag-test 
   run_list: 
   - recipe[bind]
   attributes: {
@@ -39,3 +39,8 @@ suites:
       "domains": "test"
     }
   }
+- name: default
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[bind_test]
+  attributes: {}
