@@ -1,5 +1,10 @@
 # CHANGELOG for bind
 
+## 1.1.0:
+
+* Added initial Centos/RHEL support
+* Added minitest support
+
 ## 1.0.0:
 
 * Added bind_zone lwrp
