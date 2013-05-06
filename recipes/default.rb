@@ -14,7 +14,6 @@ end
 # Only supporting data bags at this time
 # TODO: Support multiple domains
 domains = data_bag(node[:bind][:data_bag])
-Chef::Log.info("Domains: #{domains}")
 if !domains.empty?
   domains.each do |domain|
     domain_info = data_bag_item(node[:bind][:data_bag], domain)
