@@ -1,6 +1,6 @@
-Haproxy Test Cookbook
+Bind Test Cookbook
 ================
-Haproxy Test
+Bind Test
 
 License and Authors
 -------------------
