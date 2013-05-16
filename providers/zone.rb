@@ -39,4 +39,5 @@ action :create do
                :cache_minimum => new_resource.cache_minimum || node[:bind][:minimum]})
     notifies :restart, "service[#{node[:bind][:service]}]"
   end 
+  new_resource.updated_by_last_action(true) 
 end 
