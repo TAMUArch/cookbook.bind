@@ -11,17 +11,18 @@ action :create do
 
   # A sha256 hash is used to determine whether any records have changed
   require 'digest'
+  require 'date'
 
   new_hash = Digest.hexencode(Digest::SHA256.digest new_resource.records.to_s)
 
   if !node[:bind][:records_hash].nil? 
     if new_hash != node[:bind][:records_hash][new_resource.zone_name]
-      serial = rand (10 ** 10)
+      serial = new_serial 
       node.set[:bind][:records_hash][new_resource.zone_name] = new_hash
     end
   else 
     node.set[:bind][:records_hash][new_resource.zone_name] = new_hash 
-    serial = rand (10 ** 10)
+    serial = new_serial 
   end
 
   template "#{node[:bind][:db_dir]}/db.#{new_resource.zone_name}" do
@@ -41,3 +42,7 @@ action :create do
   end 
   new_resource.updated_by_last_action(true) 
 end 
+
+def new_serial
+  DateTime.now.strftime("%Y%m%d%H%M%S")
+end
