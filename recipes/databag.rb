@@ -1,4 +1,13 @@
-domains = data_bag(node[:bind][:data_bag])
+
+zones = data_bag(node[:bind][:data_bag])
+if zones.empty?
+  Chef::Log.error("Data bag is empty")
+end
+
+zones.each do |zone|
+
+
+end
 if !domains.empty?
   domains.each do |domain|
     domain_info = data_bag_item(node[:bind][:data_bag], domain)

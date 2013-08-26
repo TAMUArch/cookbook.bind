@@ -7,8 +7,7 @@ action :delete do
   end
 end
 
-action :create do  
-
+action :create do
   # A sha256 hash is used to determine whether any records have changed
   require 'digest'
   require 'date'
@@ -17,12 +16,12 @@ action :create do
 
   if !node[:bind][:records_hash].nil? 
     if new_hash != node[:bind][:records_hash][new_resource.zone_name]
-      serial = new_serial 
+      serial = new_serial
       node.set[:bind][:records_hash][new_resource.zone_name] = new_hash
     end
-  else 
+  else
     node.set[:bind][:records_hash][new_resource.zone_name] = new_hash 
-    serial = new_serial 
+    serial = new_serial
   end
 
   template "#{node[:bind][:db_dir]}/db.#{new_resource.zone_name}" do
@@ -39,10 +38,16 @@ action :create do
                :nameservers => new_resource.nameservers || node[:bind][:nameservers],
                :cache_minimum => new_resource.cache_minimum || node[:bind][:minimum]})
     notifies :restart, "service[#{node[:bind][:service]}]"
-  end 
+  end
   new_resource.updated_by_last_action(true) 
-end 
+end
 
 def new_serial
   DateTime.now.strftime("%Y%m%d%H%M%S")
+end
+
+def bind_serial
+  if !node[:bind][:serial].nil?
+      
+  end
 end
