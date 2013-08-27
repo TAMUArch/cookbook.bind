@@ -29,14 +29,14 @@ action :create do
     mode "0644"
     owner "root"
     group "root"
-    variables({:zone => new_resource.zone_name, 
-               :records => new_resource.records,
-               :serial => new_resource.serial || serial, 
-               :retry_time => new_resource.retry_time || node[:bind][:retry],
-               :refresh_time => new_resource.refresh_time || node[:bind][:refresh],
-               :expire_time => new_resource.expire_time || node[:bind][:expire],
-               :nameservers => new_resource.nameservers || node[:bind][:nameservers],
-               :cache_minimum => new_resource.cache_minimum || node[:bind][:minimum]})
+    variables({:zone => new_resource.zone_name,
+               :records => parsed_records,
+               :serial => new_resource.serial || serial,
+               :retry_time => new_resource.retry_time,
+               :refresh_time => new_resource.refresh_time,
+               :expire_time => new_resource.expire_time,
+               :nameservers => new_resource.nameservers,
+               :cache_minimum => new_resource.cache_minimum})
     notifies :restart, "service[#{node[:bind][:service]}]"
   end
   new_resource.updated_by_last_action(true) 
@@ -46,8 +46,31 @@ def new_serial
   DateTime.now.strftime("%Y%m%d%H%M%S")
 end
 
-def bind_serial
-  if !node[:bind][:serial].nil?
-      
+def parsed_records
+  records = {}
+  new_resource.records.each do |name, values|
+    records.merge!({
+      name => {
+        'ttl' => values['ttl'] || '', 
+        'class' => values['class'] || 'IN',
+        'rr' => values['rr'] || 'A',
+        'name' => values['ip'],
+        'priority' => values['priority'] || ''
+      }
+    })
+    unless values['cnames'].nil?
+      values['cnames'].each do |cname|
+        records.merge!({
+          cname => {
+            'ttl' => values['ttl'] || '',
+            'class' => values['class'] || 'IN',
+            'rr' => 'CNAME',
+            'priority' => '',
+            'name' => name
+          }
+        })
+      end
+    end
   end
+  records
 end

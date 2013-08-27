@@ -35,8 +35,13 @@ suites:
 - name: rewrite-test
   run_list: 
   - recipe[bind]
-  attributes: {}
-- name: data-bag-test 
+  - recipe[bind::databag]
+  attributes: {
+    "bind": {
+      "databag": "test"
+    }
+  }
+- name: data-bag-test
   run_list: 
   - recipe[bind]
   attributes: {
