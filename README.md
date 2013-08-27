@@ -26,7 +26,7 @@ Attributes
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['bind']['data_bag'] = 'zones'</tt></td>
+    <td><tt>['bind']['data_bag']</tt></td>
     <td>String</td>
     <td>Name of data bag to use with databag recipe</td>
     <td><tt>zones</tt></td>
