@@ -1,9 +1,8 @@
 action :delete do
-  if ::File.exists?("db.#{new_resource.zone_name}")
-    file "db.#{new_resource.zone_name}" do
-      action :delete
-      notifies :reload,"service[#{node[:bind][:service]}]", :immediately
-    end
+  file "db.#{new_resource.zone_name}" do
+    action :delete
+    notifies :reload,"service[#{node[:bind][:service]}]", :immediately
+    only_if { ::File.exists?("db.#{new_resource.zone_name}") }
   end
 end
 
