@@ -32,21 +32,13 @@ platforms:
   - recipe[yum::epel]
 
 suites:
-- name: rewrite-test
+- name: data-bag-test
   run_list: 
   - recipe[bind]
   - recipe[bind::databag]
   attributes: {
     "bind": {
       "databag": "test"
-    }
-  }
-- name: data-bag-test
-  run_list: 
-  - recipe[bind]
-  attributes: {
-    "databag": {
-      "domains": "test"
     }
   }
 - name: default
