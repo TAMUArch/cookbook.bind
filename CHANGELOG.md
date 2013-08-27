@@ -1,5 +1,15 @@
 # CHANGELOG for bind
 
+## 2.0.0:
+
+* lots of cleanup
+* fixed foodcritic issues
+* added record parsing to zone lwrp
+* added ability to do reverse dns creation
+* automatic serial generation
+* data bag has own recipe
+* fixed minitest for Ubuntu
+
 ## 1.1.0:
 
 * Added initial Centos/RHEL support
