@@ -11,11 +11,11 @@ $TTL    <%= node[:bind][:ttl] %>
                 <%= @retry_time %>        ; Retry 
                 <%= @expire_time %>       ; Expire 
                 <%= @cache_minimum %>  )  ; Negative Cache TTL
-;     
+;
 <% @nameservers.each do |nameserver| -%>
 @       IN      NS        <%= nameserver %>.
 <% end -%>
 ;
-<% @records.each do |record, record_info| -%> 
-<%= record %>       <%= record_info["ttl"] %>      <%=record_info["dns_class"] %>       <%= record_info["record"] %>
+<% @records.each do |record, info| -%>
+  <%= record %>  <%= info['ttl'] %>  <%= info['class'] %>  <%= info['rr'] %>  <%= info['priority'] %>  <%= info['name'] %>
 <% end -%>

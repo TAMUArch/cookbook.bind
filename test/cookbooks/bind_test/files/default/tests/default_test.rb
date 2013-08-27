@@ -13,11 +13,6 @@ describe "bind_test::default" do
   end
 
   it 'starts the bind service' do
-    case node[:platform]
-    when "debian","ubuntu"
-      service("bind9").must_be_running
-    when "redhat","centos","scientific"
-      service("named").must_be_running
-    end
+    service("named").must_be_running
   end
 end
