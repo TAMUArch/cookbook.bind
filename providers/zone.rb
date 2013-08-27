@@ -39,7 +39,7 @@ action :reverse do
     group "root"
     variables({:zone => zone_name,
                :records => reversed_records,
-               :serial => new_resource.serial || serial,
+               :serial => new_resource.serial || serial(zone_name),
                :retry_time => new_resource.retry_time,
                :refresh_time => new_resource.refresh_time,
                :expire_time => new_resource.expire_time,
@@ -51,16 +51,16 @@ action :reverse do
   node.set[:bind][:zones].push(zone_name)
 end
 
-def serial
+def serial(zone_name = new_resource.zone_name)
   new_hash = Digest.hexencode(Digest::SHA256.digest new_resource.records.to_s)
-  if !node[:bind][:records_hash].nil?
-    if new_hash != node[:bind][:records_hash][new_resource.zone_name]
-      new_serial
-      node.set[:bind][:records_hash][new_resource.zone_name] = new_hash
-    end
-  else
-    node.set[:bind][:records_hash][new_resource.zone_name] = new_hash
+  if node[:bind][:records_hash].nil?
+    node.set[:bind][:records_hash][zone_name] = new_hash
     new_serial
+  else
+    if new_hash != node[:bind][:records_hash][zone_name]
+      node.set[:bind][:records_hash][zone_name] = new_hash
+      new_serial
+    end
   end
 end
 
