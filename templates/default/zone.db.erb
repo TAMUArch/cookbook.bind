@@ -17,5 +17,5 @@ $TTL    <%= node[:bind][:ttl] %>
 <% end -%>
 ;
 <% @records.each do |record, info| -%>
-  <%= record %>  <%= info['ttl'] %>  <%= info['class'] %>  <%= info['rr'] %>  <%= info['priority'] %>  <%= info['name'] %>
+<%= record %>  <%= info['ttl'] %>  <%= info['class'] %>  <%= info['rr'] %>  <%= info['priority'] %>  <%= info['name'] %>
 <% end -%>
