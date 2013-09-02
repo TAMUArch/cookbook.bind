@@ -1,5 +1,9 @@
 # CHANGELOG for bind
 
+## 2.0.2:
+
+* fixed formatting issue with db files
+
 ## 2.0.1:
 
 * retain created serial number as an attribute
