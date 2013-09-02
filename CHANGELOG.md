@@ -1,5 +1,9 @@
 # CHANGELOG for bind
 
+## 2.0.1:
+
+* retain created serial number as an attribute
+
 ## 2.0.0:
 
 * lots of cleanup
