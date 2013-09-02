@@ -55,13 +55,14 @@ def serial(zone_name = new_resource.zone_name)
   new_hash = Digest.hexencode(Digest::SHA256.digest new_resource.records.to_s)
   if node[:bind][:records_hash].nil?
     node.set[:bind][:records_hash][zone_name] = new_hash
-    new_serial
+    node.set[:bind][:zone_serial][zone_name] = new_serial
   else
     if new_hash != node[:bind][:records_hash][zone_name]
       node.set[:bind][:records_hash][zone_name] = new_hash
-      new_serial
+      node.set[:bind][:zone_serial][zone_name] = new_serial
     end
   end
+  node[:bind][:zone_serial][zone_name]
 end
 
 def new_serial
