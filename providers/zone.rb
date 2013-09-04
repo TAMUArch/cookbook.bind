@@ -77,7 +77,7 @@ def reversed_records
         'ttl' => values['ttl'] || '',
         'class' => values['class'] || 'IN',
         'rr' => 'PTR',
-        'name' => name,
+        'name' => "#{name}.#{new_resource.zone_name}.",
         'priority' => ''
       }
     })
