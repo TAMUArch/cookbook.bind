@@ -1,5 +1,9 @@
 # CHANGELOG for bind
 
+## 2.0.3:
+
+* fixed bug with reverse records not being complete
+
 ## 2.0.2:
 
 * fixed formatting issue with db files
