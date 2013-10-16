@@ -4,12 +4,12 @@
 ;
 
 $ORIGIN <%= @zone %>.
-$TTL    <%= node[:bind][:ttl] %>
-@       IN      SOA       <%= node[:bind][:soa] %>. <%= node[:bind][:soa_email] %>. (
+$TTL    <%= node['bind']['ttl'] %>
+@       IN      SOA       <%= node['bind']['soa'] %>. <%= node['bind']['soa_email'] %>. (
                 <%= @serial %>            ; Serial
                 <%= @refresh_time %>      ; Refresh
-                <%= @retry_time %>        ; Retry 
-                <%= @expire_time %>       ; Expire 
+                <%= @retry_time %>        ; Retry
+                <%= @expire_time %>       ; Expire
                 <%= @cache_minimum %>  )  ; Negative Cache TTL
 ;
 <% @nameservers.each do |nameserver| -%>

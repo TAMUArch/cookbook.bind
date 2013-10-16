@@ -1,13 +1,13 @@
 options {
-  <% if !node[:bind][:forward_ips].empty? -%>
+  <% unless node['bind']['forward_ips'].empty? -%>
     forwarders {
-      <% node[:bind][:forward_ips].each do |ip| -%>
+      <% node['bind']['forward_ips'].each do |ip| -%>
         <%= ip %>;
       <% end -%>
     };
   <% end -%>
-  
-  <% node[:bind][:options].each do |key, value| -%>
+
+  <% node['bind']['options'].each do |key, value| -%>
     <%= key %> <%= value %>;
   <% end -%> 
 };
