@@ -5,13 +5,13 @@ require 'date'
 action :delete do
   file "db.#{new_resource.zone_name}" do
     action :delete
-    notifies :reload,"service[#{node[:bind][:service]}]", :immediately
+    notifies :reload,"service[#{node['bind']['service']}]", :immediately
     only_if { ::File.exists?("db.#{new_resource.zone_name}") }
   end
 end
 
 action :create do
-  template "#{node[:bind][:db_dir]}/db.#{new_resource.zone_name}" do
+  template "#{node['bind']['db_dir']}/db.#{new_resource.zone_name}" do
     source "zone.db.erb"
     mode "0644"
     owner "root"
@@ -24,15 +24,15 @@ action :create do
                :expire_time => new_resource.expire_time,
                :nameservers => new_resource.nameservers,
                :cache_minimum => new_resource.cache_minimum})
-    notifies :restart, "service[#{node[:bind][:service]}]"
+    notifies :restart, "service[#{node['bind']['service']}]"
   end
-  new_resource.updated_by_last_action(true) 
+  new_resource.updated_by_last_action(true)
 end
 
 action :reverse do
   zone_name = new_resource.network.split('.')[0..-2].reverse.join('.') + '.IN-ADDR.ARPA'
 
-  template "#{node[:bind][:db_dir]}/db.#{zone_name}" do
+  template "#{node['bind']['db_dir']}/db.#{zone_name}" do
     source "zone.db.erb"
     mode "0644"
     owner "root"
@@ -45,24 +45,24 @@ action :reverse do
                :expire_time => new_resource.expire_time,
                :nameservers => new_resource.nameservers,
                :cache_minimum => new_resource.cache_minimum})
-    notifies :restart, "service[#{node[:bind][:service]}]"
+    notifies :restart, "service[#{node['bind']['service']}]"
   end
 
-  node.set[:bind][:zones].push(zone_name)
+  node.set['bind']['zones'].push(zone_name)
 end
 
 def serial(zone_name = new_resource.zone_name)
   new_hash = Digest.hexencode(Digest::SHA256.digest new_resource.records.to_s)
-  if node[:bind][:records_hash].nil?
-    node.set[:bind][:records_hash][zone_name] = new_hash
-    node.set[:bind][:zone_serial][zone_name] = new_serial
+  if node['bind']['records_hash'].nil?
+    node.set['bind']['records_hash'][zone_name] = new_hash
+    node.set['bind']['zone_serial'][zone_name] = new_serial
   else
-    if new_hash != node[:bind][:records_hash][zone_name]
-      node.set[:bind][:records_hash][zone_name] = new_hash
-      node.set[:bind][:zone_serial][zone_name] = new_serial
+    if new_hash != node['bind']['records_hash'][zone_name]
+      node.set['bind']['records_hash'][zone_name] = new_hash
+      node.set['bind']['zone_serial'][zone_name] = new_serial
     end
   end
-  node[:bind][:zone_serial][zone_name]
+  node['bind']['zone_serial'][zone_name]
 end
 
 def new_serial
