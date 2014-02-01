@@ -1,7 +1,7 @@
 zones = data_bag(node['bind']['data_bag'])
-if zones.empty?
-  Chef::Log.error("Data bag cannot be empty")
-end
+
+Chef::Log.error('Data bag cannot be empty') if zones.empty?
+
 node.set['bind']['zones'] = zones
 
 zones.each do |zone|
@@ -9,7 +9,7 @@ zones.each do |zone|
   zone_info = data_bag_item(node['bind']['data_bag'], zone)
 
   bind_zone zone do
-    action [ :create, :reverse ]
+    action [:create, :reverse]
     nameservers zone_info['nameservers']
     records zone_info['hosts']
     network zone_info['network']
@@ -22,9 +22,9 @@ zones.each do |zone|
 end
 
 template "#{node['bind']['dir']}/named.conf.local" do
-  source "named.conf.erb"
-  mode "0644"
-  group "root"
-  owner "root"
+  source 'named.conf.erb'
+  mode 0644
+  group 'root'
+  owner 'root'
   notifies :reload, "service[#{node['bind']['service']}]"
 end
