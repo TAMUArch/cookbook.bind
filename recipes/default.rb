@@ -11,8 +11,8 @@ package node['bind']['package_name'] do
   action [:install]
 end
 
-template ::File.join(node['bind']['dir'], 'named.conf.options') do
-  source 'named.conf.options.erb'
+template ::File.join(node['bind']['dir'], 'named.conf') do
+  source 'named.conf.erb'
   mode 0644
   owner 'root'
   group 'root'

@@ -18,7 +18,7 @@ default['bind']['nameservers']
 default['bind']['server']['role'] = 'master'
 default['bind']['server']['masters']
 # Bind Named Conf Options
-default['bind']['options']
+default['bind']['options'] = {}
 default['bind']['forward_ips']
 
 ## Bind Packages

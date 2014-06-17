@@ -9,6 +9,20 @@ zone "<%= zone %>" {
 };
 <% end -%>
 
+options {
+  <% node['bind']['options'].each do |name, option| -%>
+    <%= name %> <%= option %>;
+  <% end -%>
+
+  <% unless node['bind']['forward_ips'].empty? -%>
+  forwarders {
+    <% node['bind']['forward_ips'].each do |ip| -%>
+    <%= ip %>;
+    <% end -%>
+  };
+  <% end -%>
+};
+
 <% unless node['bind']['acls'].empty? -%>
   <% node['bind']['acls'].each do |name, list| -%>
     <% if name == 'recurseallow' -%>
@@ -16,7 +30,7 @@ acl <%= name %> {
     <% else -%>
 acl "<%= name %>" {
     <% end -%>
-  <%= list.join(' ;') %>;
-}
+  <%= list.join(';') %>;
+};
   <% end -%>
 <% end -%>
