@@ -8,3 +8,15 @@ zone "<%= zone %>" {
   <% end -%>
 };
 <% end -%>
+
+<% unless node['bind']['acls'].empty? -%>
+  <% node['bind']['acls'].each do |name, list| -%>
+    <% if name == 'recurseallow' -%>
+acl <%= name %> {
+    <% else -%>
+acl "<%= name %>" {
+    <% end -%>
+  <%= list.join(' ;') %>;
+}
+  <% end -%>
+<% end -%>

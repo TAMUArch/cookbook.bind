@@ -2,6 +2,7 @@ default['bind']['data_bag'] = 'zones'
 
 # Bind Zone Variables
 default['bind']['zones'] = []
+default['bind']['acls'] = {}
 
 # Base stuffs for any zone
 default['bind']['soa'] = node['fqdn']
