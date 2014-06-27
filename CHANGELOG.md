@@ -1,5 +1,12 @@
 # CHANGELOG for bind
 
+## 2.1.0:
+
+* Added default zones
+* Added support for SLES
+* Added support for ACLs
+* Moved options into named.conf
+
 ## 2.0.3:
 
 * fixed bug with reverse records not being complete
