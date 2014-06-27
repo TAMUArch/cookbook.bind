@@ -34,3 +34,5 @@ acl "<%= name %>" {
 };
   <% end -%>
 <% end -%>
+
+include "<%= ::File.join(node['bind']['db_dir'], 'named.conf.default-zones') %>";
