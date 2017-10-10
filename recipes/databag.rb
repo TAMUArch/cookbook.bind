@@ -5,7 +5,6 @@ Chef::Log.error('Data bag cannot be empty') if zones.empty?
 node.set['bind']['zones'] = zones
 
 zones.each do |zone|
-
   zone_info = data_bag_item(node['bind']['data_bag'], zone)
 
   bind_zone zone do
