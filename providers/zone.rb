@@ -72,7 +72,7 @@ def serial(zone_name = new_resource.zone_name)
 end
 
 def new_serial
-  DateTime.now.strftime('%Y%m%d%H%M%S')
+  DateTime.now.strftime('%Y%m%d%H')
 end
 
 def reversed_records
