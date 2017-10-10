@@ -1,38 +1,5 @@
 // File managed by Chef
-<% node['bind']['zones'].each do |zone| -%>
-zone "<%= zone %>" {
-  type <%= node['bind']['server']['role'] %>;
-  file "<%= "#{node['bind']['db_dir']}/db.#{zone}" %>";
-  <% if node['bind']['server']['role'] == "slave" -%>
-  masters { <%= node['bind']['server']['masters'] %>; };
-  <% end -%>
-};
-<% end -%>
 
-options {
-  <% node['bind']['options'].each do |name, option| -%>
-    <%= name %> <%= option %>;
-  <% end -%>
-
-  <% unless node['bind']['forward_ips'].empty? -%>
-  forwarders {
-    <% node['bind']['forward_ips'].each do |ip| -%>
-    <%= ip %>;
-    <% end -%>
-  };
-  <% end -%>
-};
-
-<% unless node['bind']['acls'].empty? -%>
-  <% node['bind']['acls'].each do |name, list| -%>
-    <% if name == 'recurseallow' -%>
-acl <%= name %> {
-    <% else -%>
-acl "<%= name %>" {
-    <% end -%>
-  <%= list.join(';') %>;
-};
-  <% end -%>
-<% end -%>
-
+include "<%= ::File.join(node['bind']['db_dir'], 'named.conf.options') %>";
+include "<%= ::File.join(node['bind']['db_dir'], 'named.conf.local') %>";
 include "<%= ::File.join(node['bind']['db_dir'], 'named.conf.default-zones') %>";

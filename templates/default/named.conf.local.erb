@@ -1,0 +1,10 @@
+// File managed by Chef
+<% node['bind']['zones'].each do |zone| -%>
+zone "<%= zone %>" {
+  type <%= node['bind']['server']['role'] %>;
+  file "<%= "#{node['bind']['db_dir']}/db.#{zone}" %>";
+  <% if node['bind']['server']['role'] == "slave" -%>
+  masters { <%= node['bind']['server']['masters'] %>; };
+  <% end -%>
+};
+<% end -%>

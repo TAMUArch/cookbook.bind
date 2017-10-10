@@ -11,6 +11,8 @@ package node['bind']['package_name'] do
   action [:install]
 end
 
+include_recipe 'bind::databag'
+
 template ::File.join(node['bind']['dir'], 'named.conf') do
   source 'named.conf.erb'
   mode 0644
@@ -24,6 +26,7 @@ template ::File.join(node['bind']['db_dir'], 'named.conf.default-zones') do
   mode 0644
   owner 'root'
   group 'root'
+  notifies :restart, "service[#{node['bind']['service']}]"
 end
 
 %w(
@@ -39,6 +42,22 @@ end
     group 'root'
     mode 0644
   end
+end
+
+template "#{node['bind']['dir']}/named.conf.local" do
+  source 'named.conf.local.erb'
+  mode 0644
+  group 'root'
+  owner 'root'
+  notifies :reload, "service[#{node['bind']['service']}]"
+end
+
+template "#{node['bind']['dir']}/named.conf.options" do
+  source 'named.conf.options.erb'
+  mode 0644
+  group 'root'
+  owner 'root'
+  notifies :reload, "service[#{node['bind']['service']}]"
 end
 
 service node['bind']['service'] do

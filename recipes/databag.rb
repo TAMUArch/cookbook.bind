@@ -20,11 +20,3 @@ zones.each do |zone|
     serial zone_info['seed'] unless zone_info['seed'].nil?
   end
 end
-
-template "#{node['bind']['dir']}/named.conf.local" do
-  source 'named.conf.erb'
-  mode 0644
-  group 'root'
-  owner 'root'
-  notifies :reload, "service[#{node['bind']['service']}]"
-end
