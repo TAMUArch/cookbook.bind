@@ -1,5 +1,12 @@
 # CHANGELOG for bind
 
+## 2.2.0:
+
+* Change default zone SOA serial to YYYYMMDDHH
+* Add Ubuntu-16.04 as tested platform
+* Have default recipe call databag recipe
+* Reorganize how named.conf files are organized
+
 ## 2.1.0:
 
 * Added default zones
