@@ -5,7 +5,6 @@ Chef::Log.error('Data bag cannot be empty') if zones.empty?
 node.set['bind']['zones'] = zones
 
 zones.each do |zone|
-
   zone_info = data_bag_item(node['bind']['data_bag'], zone)
 
   bind_zone zone do
@@ -19,12 +18,4 @@ zones.each do |zone|
     cache_minimum zone_info['cache_minimum'] || node['bind']['minimum']
     serial zone_info['seed'] unless zone_info['seed'].nil?
   end
-end
-
-template "#{node['bind']['dir']}/named.conf.local" do
-  source 'named.conf.erb'
-  mode 0644
-  group 'root'
-  owner 'root'
-  notifies :reload, "service[#{node['bind']['service']}]"
 end

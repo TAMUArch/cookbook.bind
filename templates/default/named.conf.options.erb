@@ -1,13 +1,37 @@
+// File managed by Chef
+
 options {
+  <% node['bind']['options'].each do |name, option| -%>
+  <%= name %> <%= option %>;
+  <% end -%>
   <% unless node['bind']['forward_ips'].empty? -%>
-    forwarders {
-      <% node['bind']['forward_ips'].each do |ip| -%>
-        <%= ip %>;
-      <% end -%>
-    };
+  forwarders {
+    <% node['bind']['forward_ips'].each do |ip| -%>
+    <%= ip %>;
+    <% end -%>
+  };
   <% end -%>
 
-  <% node['bind']['options'].each do |key, value| -%>
-    <%= key %> <%= value %>;
-  <% end -%> 
+  <% unless node['bind']['allow-recursion'].empty? -%>
+  recursion yes;
+  allow-recursion {
+    <% node['bind']['allow-recursion'].each do |ip| -%>
+    <%= ip %>;
+    <% end -%>
+  };
+  <% else -%>
+  recursion no;
+  <% end -%>
 };
+
+<% unless node['bind']['acls'].empty? -%>
+  <% node['bind']['acls'].each do |name, list| -%>
+    <% if name == 'recurseallow' -%>
+acl <%= name %> {
+    <% else -%>
+acl "<%= name %>" {
+    <% end -%>
+  <%= list.join(';') %>;
+};
+  <% end -%>
+<% end -%>
